@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -29,7 +30,7 @@ public class User : BaseEntity, IUser
     /// Gets the user's phone number.
     /// Must be a valid phone number format following the pattern (XX) XXXXX-XXXX.
     /// </summary>
-    public string Phone { get; set; } = string.Empty ;
+    public string Phone { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the hashed password for authentication.
@@ -37,12 +38,15 @@ public class User : BaseEntity, IUser
     /// one lowercase letter, one number, and one special character.
     /// </summary>
     public string Password { get; set; } = string.Empty;
+    public Name Name { get; set; } = new();
+    public Address Address { get; set; } = new();
+
 
     /// <summary>
     /// Gets the user's role in the system.
     /// Determines the user's permissions and access levels.
     /// </summary>
-    public UserRole Role { get;     set; }
+    public UserRole Role { get; set; }
 
     /// <summary>
     /// Gets the user's current status.

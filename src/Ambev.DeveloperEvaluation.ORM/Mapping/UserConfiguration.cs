@@ -27,5 +27,46 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion<string>()
             .HasMaxLength(20);
 
+        //Name (firstname, lastname)
+        builder.OwnsOne(u => u.Name, name =>
+        {
+            name.Property(n => n.Firstname)
+                .HasColumnName("Firstname")
+                .HasMaxLength(50);
+
+            name.Property(n => n.Lastname)
+                .HasColumnName("Lastname")
+                .HasMaxLength(50);
+        });
+
+        // Address + Geolocation
+        builder.OwnsOne(u => u.Address, address =>
+        {
+            address.Property(a => a.City)
+                .HasColumnName("City")
+                .HasMaxLength(50);
+
+            address.Property(a => a.Street)
+                .HasColumnName("Street")
+                .HasMaxLength(100);
+
+            address.Property(a => a.Number)
+                .HasColumnName("Number");
+
+            address.Property(a => a.Zipcode)
+                .HasColumnName("Zipcode")
+                .HasMaxLength(20);
+
+            address.OwnsOne(a => a.Geolocation, geo =>
+            {
+                geo.Property(g => g.Lat)
+                    .HasColumnName("Lat")
+                    .HasMaxLength(20);
+
+                geo.Property(g => g.Long)
+                    .HasColumnName("Long")
+                    .HasMaxLength(20);
+            });
+        });
     }
 }
