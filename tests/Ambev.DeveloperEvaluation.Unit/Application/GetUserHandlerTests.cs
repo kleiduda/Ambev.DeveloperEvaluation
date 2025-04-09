@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
+using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
@@ -28,33 +29,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             // Given
             var userId = Guid.NewGuid();
             var command = new GetUserCommand(userId);
-
-            var user = new User
-            {
-                Id = userId,
-                Username = "kleiton",
-                Email = "kleitonsfreitas@gmail.com",
-                Phone = "11953476593",
-                Role = UserRole.Customer,
-                Status = UserStatus.Active,
-                Name = new Name
-                {
-                    Firstname = "Kleiton",
-                    Lastname = "Freitas"
-                },
-                Address = new Address
-                {
-                    City = "Indaiatuba",
-                    Street = "Av Ary Barnabe",
-                    Number = 123,
-                    Zipcode = "13332-550",
-                    Geolocation = new Geolocation
-                    {
-                        Lat = "-23.0882",
-                        Long = "-47.2234"
-                    }
-                }
-            };
+            var user = UserTestData.GenerateValidUser();
 
             var expectedResult = new GetUserResult
             {
