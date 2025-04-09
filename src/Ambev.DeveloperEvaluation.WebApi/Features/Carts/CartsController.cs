@@ -1,12 +1,14 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.ListCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using AutoMapper;
@@ -53,6 +55,51 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
 
             return Created(string.Empty, response);
         }
+
+        /// <summary>
+        /// Retrieves a paginated list of carts
+        /// </summary>
+        /// <param name="_page">Page number (default: 1)</param>
+        /// <param name="_size">Number of items per page (default: 10)</param>
+        /// <param name="order">Ordering of results</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Paged list of carts</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginatedResponse<ListCartsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCarts(
+            [FromQuery(Name = "_page")] int _page = 1,
+            [FromQuery(Name = "_size")] int _size = 10,
+            [FromQuery(Name = "_order")] string? order = null,
+            CancellationToken cancellationToken = default)
+        {
+            var request = new ListCartsRequest
+            {
+                Page = _page,
+                PageSize = _size,
+                OrderBy = order
+            };
+
+            var validator = new ListCartsRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<ListCartsCommand>(request);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            var response = _mapper.Map<List<ListCartsResponse>>(result.Items);
+
+            var paginated = new PaginatedList<ListCartsResponse>(
+                response,
+                result.TotalItems,
+                result.CurrentPage,
+                result.PageSize
+            );
+
+            return OkPaginated(paginated);
+        }
+
 
 
         /// <summary>
