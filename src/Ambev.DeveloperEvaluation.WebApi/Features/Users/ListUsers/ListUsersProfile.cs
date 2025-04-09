@@ -17,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUsers
             CreateMap<Geolocation, GeolocationResponse>();
 
             // Opcional: Request da WebApi → Command da Application
-            CreateMap<ListUsersRequest, GetUsersCommand>();
+            CreateMap<ListUsersRequest, ListUsersCommand>();
         }
     }
 }
