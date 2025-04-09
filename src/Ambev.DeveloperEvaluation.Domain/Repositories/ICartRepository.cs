@@ -14,6 +14,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <returns>The cart if found, otherwise null</returns>
         Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Updates a cart in the database
+        /// </summary>
+        /// <param name="cart">The cart to update</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        Task UpdateAsync(Cart cart, CancellationToken cancellationToken);
+
+
 
     }
 
