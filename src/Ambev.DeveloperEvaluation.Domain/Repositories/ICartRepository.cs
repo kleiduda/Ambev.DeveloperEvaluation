@@ -21,6 +21,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         Task UpdateAsync(Cart cart, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Delete a cart in the database
+        /// </summary>
+        /// <param name="id">The cart to delee</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
 
     }
