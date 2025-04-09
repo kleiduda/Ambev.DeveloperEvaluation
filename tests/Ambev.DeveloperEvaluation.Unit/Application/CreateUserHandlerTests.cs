@@ -1,7 +1,9 @@
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using Ambev.DeveloperEvaluation.Unit.Domain;
 using AutoMapper;
 using FluentAssertions;
@@ -48,12 +50,51 @@ public class CreateUserHandlerTests
             Email = command.Email,
             Phone = command.Phone,
             Status = command.Status,
-            Role = command.Role
+            Role = command.Role,
+            Name = new Name
+            {
+                Firstname = command.Name.Firstname,
+                Lastname = command.Name.Lastname
+            },
+            Address = new Address
+            {
+                City = command.Address.City,
+                Street = command.Address.Street,
+                Number = command.Address.Number,
+                Zipcode = command.Address.Zipcode,
+                Geolocation = new Geolocation
+                {
+                    Lat = command.Address.Geolocation.Lat,
+                    Long = command.Address.Geolocation.Long
+                }
+            }
         };
 
         var result = new CreateUserResult
         {
             Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Phone = user.Phone,
+            Status = user.Status,
+            Role = user.Role,
+            Name = new NameDto
+            {
+                Firstname = user.Name.Firstname,
+                Lastname = user.Name.Lastname
+            },
+            Address = new AddressDto
+            {
+                City = user.Address.City,
+                Street = user.Address.Street,
+                Number = user.Address.Number,
+                Zipcode = user.Address.Zipcode,
+                Geolocation = new GeolocationDto
+                {
+                    Lat = user.Address.Geolocation.Lat,
+                    Long = user.Address.Geolocation.Long
+                }
+            }
         };
 
 
@@ -107,7 +148,24 @@ public class CreateUserHandlerTests
             Email = command.Email,
             Phone = command.Phone,
             Status = command.Status,
-            Role = command.Role
+            Role = command.Role,
+            Name = new Name
+            {
+                Firstname = command.Name.Firstname,
+                Lastname = command.Name.Lastname
+            },
+            Address = new Address
+            {
+                City = command.Address.City,
+                Street = command.Address.Street,
+                Number = command.Address.Number,
+                Zipcode = command.Address.Zipcode,
+                Geolocation = new Geolocation
+                {
+                    Lat = command.Address.Geolocation.Lat,
+                    Long = command.Address.Geolocation.Long
+                }
+            }
         };
 
         _mapper.Map<User>(command).Returns(user);
@@ -141,7 +199,24 @@ public class CreateUserHandlerTests
             Email = command.Email,
             Phone = command.Phone,
             Status = command.Status,
-            Role = command.Role
+            Role = command.Role,
+            Name = new Name
+            {
+                Firstname = command.Name.Firstname,
+                Lastname = command.Name.Lastname
+            },
+            Address = new Address
+            {
+                City = command.Address.City,
+                Street = command.Address.Street,
+                Number = command.Address.Number,
+                Zipcode = command.Address.Zipcode,
+                Geolocation = new Geolocation
+                {
+                    Lat = command.Address.Geolocation.Lat,
+                    Long = command.Address.Geolocation.Long
+                }
+            }
         };
 
         _mapper.Map<User>(command).Returns(user);
