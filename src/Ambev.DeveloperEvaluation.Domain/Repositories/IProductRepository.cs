@@ -27,6 +27,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         Task<List<string>> GetAllCategoriesAsync(CancellationToken cancellationToken);
 
+        Task<(List<Product> Items, int TotalItems)> GetByCategoryAsync(
+        string category,
+        int page,
+        int pageSize,
+        string? orderBy,
+        CancellationToken cancellationToken);
+
+
 
 
     }
