@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
+using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 using AutoMapper;
 
