@@ -25,6 +25,13 @@ public interface IUserRepository
     /// <returns>A tuple containing the list of users and the total item count</returns>
     Task<(List<User> Items, int TotalItems)> GetPaginatedAsync(int page, int pageSize, string? orderBy, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Update user in the repository
+    /// </summary>
+    /// <param name="user">The user to create</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The update user</returns>
+    Task<User> UpdateAsync(User user, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retrieves a user by their unique identifier
