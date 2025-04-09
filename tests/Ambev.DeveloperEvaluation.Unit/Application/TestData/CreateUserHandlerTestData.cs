@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Bogus;
 
@@ -27,7 +28,25 @@ public static class CreateUserHandlerTestData
         .RuleFor(u => u.Email, f => f.Internet.Email())
         .RuleFor(u => u.Phone, f => $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}")
         .RuleFor(u => u.Status, f => f.PickRandom(UserStatus.Active, UserStatus.Suspended))
-        .RuleFor(u => u.Role, f => f.PickRandom(UserRole.Customer, UserRole.Admin));
+        .RuleFor(u => u.Role, f => f.PickRandom(UserRole.Customer, UserRole.Admin))
+        .RuleFor(u => u.Name, f => new NameDto
+        {
+            Firstname = f.Name.FirstName(),
+            Lastname = f.Name.LastName()
+        })
+
+        .RuleFor(u => u.Address, f => new AddressDto
+        {
+            City = f.Address.City(),
+            Street = f.Address.StreetName(),
+            Number = f.Random.Int(1, 9999),
+            Zipcode = f.Address.ZipCode("#####-###"),
+            Geolocation = new GeolocationDto
+            {
+                Lat = f.Address.Latitude().ToString("F6"),
+                Long = f.Address.Longitude().ToString("F6")
+            }
+        });
 
     /// <summary>
     /// Generates a valid User entity with randomized data.
