@@ -16,6 +16,17 @@ public interface IUserRepository
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves a paginated and ordered list of users.
+    /// </summary>
+    /// <param name="page">The page number to retrieve (starting from 1).</param>
+    /// <param name="pageSize">The number of users per page.</param>
+    /// <param name="orderBy">The dynamic order string (e.g., "username asc, email desc").</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>A tuple containing the list of users and the total item count</returns>
+    Task<(List<User> Items, int TotalItems)> GetPaginatedAsync(int page, int pageSize, string? orderBy, CancellationToken cancellationToken);
+
+
+    /// <summary>
     /// Retrieves a user by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the user</param>
