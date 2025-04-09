@@ -10,6 +10,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         int pageSize,
         string? orderBy,
         CancellationToken cancellationToken);
+
+        Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
     }
 
 }
