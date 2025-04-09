@@ -84,5 +84,65 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts.UpdateCart
             result.Id.Should().Be(cartId);
         }
 
+        [Fact(DisplayName = "Given updated cart with item quantity above 20 When handling Then throws DomainException")]
+        public async Task Handle_QuantityAbove20_ThrowsDomainException()
+        {
+            // Arrange
+            var cartId = Guid.NewGuid();
+
+            var command = new UpdateCartCommand
+            {
+                Id = cartId,
+                UserId = Guid.NewGuid(),
+                Date = DateTime.UtcNow,
+                Products = new List<CartProductDto>
+                {
+                    new() { ProductId = Guid.NewGuid(), Quantity = 25 } // inválido
+                }
+            };
+
+            var product = new Product
+            {
+                Id = command.Products[0].ProductId,
+                Price = 10m
+            };
+
+            var cartToUpdate = new Cart
+            {
+                Id = cartId,
+                UserId = command.UserId,
+                Date = command.Date,
+                Products = new List<CartProduct>()
+            };
+
+            var repository = Substitute.For<ICartRepository>();
+            var productRepo = Substitute.For<IProductRepository>();
+
+            repository.GetByIdAsync(cartId, Arg.Any<CancellationToken>())
+                .Returns(cartToUpdate);
+
+            productRepo.GetByIdAsync(product.Id, Arg.Any<CancellationToken>())
+                .Returns(product);
+
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UpdateCartCommand, Cart>();
+                cfg.CreateMap<CartProductDto, CartProduct>();
+                cfg.CreateMap<Cart, UpdateCartResult>();
+                cfg.CreateMap<CartProduct, CartProductDto>();
+            }).CreateMapper();
+
+            var handler = new UpdateCartHandler(repository, mapper, productRepo);
+
+            // Act
+            var act = async () => await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<DomainException>()
+                .WithMessage("Cannot sell more than 20 identical items*");
+        }
+
+
     }
 }
