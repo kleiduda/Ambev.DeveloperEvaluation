@@ -85,6 +85,36 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<(List<Product> Items, int TotalItems)> GetByCategoryAsync(string category, int page, int pageSize, string? orderBy, CancellationToken cancellationToken)
+        {
+            var query = _context.Products
+                        .Where(p => p.Category == category);
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                try
+                {
+                    query = query.OrderBy(orderBy);
+                }
+                catch
+                {
+                    query = query.OrderBy(p => p.Title);
+                }
+            }
+            else
+            {
+                query = query.OrderBy(p => p.Title);
+            }
+
+            var totalItems = await query.CountAsync(cancellationToken);
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            return (items, totalItems);
+        }
     }
 
 }
