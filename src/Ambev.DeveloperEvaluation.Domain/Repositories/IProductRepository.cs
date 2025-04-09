@@ -21,6 +21,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Get a list of categories
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        Task<List<string>> GetAllCategoriesAsync(CancellationToken cancellationToken);
+
+
 
     }
 
