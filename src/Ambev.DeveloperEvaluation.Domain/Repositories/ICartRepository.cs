@@ -6,6 +6,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
     {
         Task<Cart> CreateAsync(Cart cart, CancellationToken cancellationToken);
 
+        Task<(List<Cart> Items, int TotalItems)> GetPaginatedAsync(
+        int page,
+        int pageSize,
+        string? orderBy,
+        CancellationToken cancellationToken);
+
+
         /// <summary>
         /// Retrieves a cart by ID
         /// </summary>
