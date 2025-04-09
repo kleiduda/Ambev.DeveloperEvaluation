@@ -18,6 +18,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.Property(c => c.UserId).IsRequired();
             builder.Property(c => c.Date).IsRequired();
 
+            builder.Property(c => c.TotalValue)
+               .HasColumnType("numeric(18,2)")
+               .IsRequired();
+
             builder.OwnsMany(c => c.Products, pb =>
             {
                 pb.ToTable("CartProducts");
@@ -29,6 +33,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
                 pb.Property(p => p.ProductId).IsRequired();
                 pb.Property(p => p.Quantity).IsRequired();
             });
+
         }
     }
 
