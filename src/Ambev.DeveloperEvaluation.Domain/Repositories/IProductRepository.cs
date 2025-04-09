@@ -5,6 +5,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
     public interface IProductRepository
     {
         Task<Product> CreateAsync(Product product, CancellationToken cancellationToken);
+        Task<(List<Product> Items, int TotalItems)> GetPaginatedAsync(
+        int page,
+        int pageSize,
+        string? orderBy,
+        CancellationToken cancellationToken);
     }
 
 }
