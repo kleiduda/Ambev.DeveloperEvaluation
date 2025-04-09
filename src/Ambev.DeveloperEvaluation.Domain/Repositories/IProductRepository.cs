@@ -12,6 +12,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         CancellationToken cancellationToken);
 
         Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task UpdateAsync(Product product, CancellationToken cancellationToken);
+
 
     }
 
