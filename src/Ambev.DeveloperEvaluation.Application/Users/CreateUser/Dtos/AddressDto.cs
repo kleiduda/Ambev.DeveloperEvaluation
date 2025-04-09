@@ -1,3 +1,4 @@
+namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
 public class AddressDto
 {
     public string City { get; set; } = string.Empty;
