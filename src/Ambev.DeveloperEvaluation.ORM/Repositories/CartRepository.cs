@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
@@ -19,6 +20,41 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return cart;
         }
+
+        public async Task<(List<Cart> Items, int TotalItems)> GetPaginatedAsync(
+        int page,
+        int pageSize,
+        string? orderBy,
+        CancellationToken cancellationToken)
+        {
+            var query = _context.Carts.Include(c => c.Products).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                try
+                {
+                    query = query.OrderBy(orderBy); 
+                }
+                catch
+                {
+                    query = query.OrderBy(c => c.Id);
+                }
+            }
+            else
+            {
+                query = query.OrderBy(c => c.Id);
+            }
+
+            var totalItems = await query.CountAsync(cancellationToken);
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            return (items, totalItems);
+        }
+
 
         public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
