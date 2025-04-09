@@ -76,6 +76,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             }
         }
 
+        public async Task<List<string>> GetAllCategoriesAsync(CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Select(p => p.Category)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToListAsync(cancellationToken);
+        }
 
     }
 
