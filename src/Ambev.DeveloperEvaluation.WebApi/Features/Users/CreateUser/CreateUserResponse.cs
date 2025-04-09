@@ -15,7 +15,12 @@ public class CreateUserResponse
     /// <summary>
     /// The user's full name
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public NameResponse Name { get; set; } = new();
+
+    /// <summary>
+    /// The adress
+    /// </summary>
+    public AddressResponse Address { get; set; } = new();
 
     /// <summary>
     /// The user's email address
