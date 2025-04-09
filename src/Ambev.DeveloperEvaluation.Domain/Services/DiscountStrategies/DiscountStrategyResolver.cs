@@ -5,7 +5,7 @@
         public static IDiscountStrategy Resolve(int quantity)
         {
             if (quantity > 20)
-                throw new InvalidOperationException("Cannot sell more than 20 identical items");
+                throw new DomainException("Cannot sell more than 20 identical items");
 
             if (quantity >= 10)
                 return new TwentyPercentDiscountStrategy();
