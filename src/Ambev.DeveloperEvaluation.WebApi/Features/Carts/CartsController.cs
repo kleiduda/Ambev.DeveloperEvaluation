@@ -60,41 +60,30 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiResponseWithData<object>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCartById([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCartById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
         {
-            try
-            {
-                var command = new GetCartCommand(id);
-                var result = await _mediator.Send(command, cancellationToken);
+            var command = new GetCartCommand(id);
+            var result = await _mediator.Send(command, cancellationToken);
 
-                if (result is null)
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = $"Cart with ID {id} not found"
-                    });
-
-                var response = _mapper.Map<GetCartResponse>(result);
-
-                return Ok(new ApiResponseWithData<GetCartResponse>
-                {
-                    Success = true,
-                    Data = response,
-                    Message = "Cart retrieved successfully"
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("❌ ERRO no GetCartById:");
-                Console.WriteLine(ex.ToString());
-
-                return StatusCode(500, new ApiResponse
+            if (result is null)
+                return NotFound(new ApiResponse
                 {
                     Success = false,
-                    Message = "Erro interno ao tentar buscar o carrinho"
+                    Message = $"Cart with ID {id} not found"
                 });
-            }
+
+            var response = _mapper.Map<GetCartResponse>(result);
+
+            return Ok(new ApiResponseWithData<GetCartResponse>
+            {
+                Success = true,
+                Data = response,
+                Message = "Cart retrieved successfully"
+            });
         }
+
 
 
     }
