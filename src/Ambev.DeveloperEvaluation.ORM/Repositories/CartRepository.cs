@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
@@ -18,6 +19,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return cart;
         }
+
+        public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Carts
+                .Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        }
+
     }
 
 }
