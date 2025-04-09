@@ -1,7 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products;
+using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Products.ListProducts;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProducts;
 using AutoMapper;
 using MediatR;
@@ -83,6 +85,25 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             return OkPaginated(paginatedList);
         }
 
+
+        /// <summary>
+        /// Gets a product by ID
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProduct([FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var command = new GetProductCommand(id);
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result == null)
+                return NotFound($"Product with ID {id} not found");
+
+            var response = _mapper.Map<GetProductResponse>(result);
+            return Ok(response);
+        }
 
 
     }
