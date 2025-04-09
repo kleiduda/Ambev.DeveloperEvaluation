@@ -8,6 +8,8 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Application.Users.GetUsers;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUsers;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
 
@@ -58,6 +60,40 @@ public class UsersController : BaseController
             Message = "User created successfully",
             Data = _mapper.Map<CreateUserResponse>(response)
         });
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(PaginatedResponse<ListUsersResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetUsers(
+        [FromQuery] int _page = 1,
+        [FromQuery] int _size = 10,
+        [FromQuery(Name = "_order")] string? order = null,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new Application.Users.GetUsers.ListUsersRequest
+        {
+            Page = _page,
+            PageSize = _size,
+            OrderBy = order
+        };
+
+        var validator = new Application.Users.GetUsers.ListUsersRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+            return BadRequest("Parâmetros inválidos");
+
+        var command = _mapper.Map<ListUsersCommand>(request);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        var response = _mapper.Map<List<ListUsersResponse>>(result.Items);
+
+        var paginatedList = new PaginatedList<ListUsersResponse>(
+            response,
+            result.TotalItems,
+            result.CurrentPage,
+            result.PageSize);
+
+        return OkPaginated(paginatedList);
     }
 
     /// <summary>
