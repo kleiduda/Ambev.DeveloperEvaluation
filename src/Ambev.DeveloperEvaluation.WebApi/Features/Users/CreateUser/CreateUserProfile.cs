@@ -14,6 +14,13 @@ public class CreateUserProfile : Profile
     public CreateUserProfile()
     {
         CreateMap<CreateUserRequest, CreateUserCommand>();
+        CreateMap<NameRequest, NameDto>();
+        CreateMap<AddressRequest, AddressDto>();
+        CreateMap<GeolocationRequest, GeolocationDto>();
+
         CreateMap<CreateUserResult, CreateUserResponse>();
+         CreateMap<NameDto, NameResponse>();
+        CreateMap<AddressDto, AddressResponse>();
+        CreateMap<GeolocationDto, GeolocationResponse>();
     }
 }

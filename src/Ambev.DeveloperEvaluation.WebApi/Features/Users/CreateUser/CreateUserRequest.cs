@@ -27,6 +27,9 @@ public class CreateUserRequest
     /// </summary>
     public string Email { get; set; } = string.Empty;
 
+    public NameRequest Name { get; set; } = new();
+    public AddressRequest Address { get; set; } = new();
+
     /// <summary>
     /// Gets or sets the initial status of the user account.
     /// </summary>
