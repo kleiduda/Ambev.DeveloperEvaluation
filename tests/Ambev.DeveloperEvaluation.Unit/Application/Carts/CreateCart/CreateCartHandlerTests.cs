@@ -82,5 +82,49 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts.CreateCart
             fakeCart.TotalValue.Should().Be(expectedTotal);
         }
 
+        [Fact(DisplayName = "Given product quantity above 20 When creating cart Then throws DomainException")]
+        public async Task Handle_QuantityAbove20_ThrowsDomainException()
+        {
+            // Arrange
+            var command = new CreateCartCommand
+            {
+                UserId = Guid.NewGuid(),
+                Date = DateTime.UtcNow,
+                Products = new List<CartProductDto>
+                {
+                    new() { ProductId = Guid.NewGuid(), Quantity = 25 }
+                }
+            };
+
+            var product = new Product
+            {
+                Id = command.Products[0].ProductId,
+                Price = 10m
+            };
+
+            var repository = Substitute.For<ICartRepository>();
+            var productRepo = Substitute.For<IProductRepository>();
+            productRepo.GetByIdAsync(product.Id, Arg.Any<CancellationToken>()).Returns(product);
+
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CreateCartCommand, Cart>();
+                cfg.CreateMap<Cart, CreateCartResult>();
+                cfg.CreateMap<CartProductDto, CartProduct>();
+                cfg.CreateMap<CartProduct, CartProductDto>();
+            }).CreateMapper();
+
+            var handler = new CreateCartHandler(repository, productRepo, mapper);
+
+            // Act
+            var act = async () => await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<DomainException>()
+                .WithMessage("Cannot sell more than 20 identical items*");
+        }
+
+
     }
 }
