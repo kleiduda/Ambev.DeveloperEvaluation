@@ -21,6 +21,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return product;
         }
 
+        public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        }
+
+
         public async Task<(List<Product> Items, int TotalItems)> GetPaginatedAsync(int page, int pageSize, string? orderBy, CancellationToken cancellationToken)
         {
             var query = _context.Products.AsQueryable();
