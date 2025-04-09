@@ -1,4 +1,6 @@
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 
@@ -15,8 +17,12 @@ public class GetUserResult
     /// <summary>
     /// The user's full name
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public NameDto Name { get; set; } = new();
 
+    /// <summary>
+    /// The Address
+    /// </summary>
+    public AddressDto Address { get; set; } = new();
     /// <summary>
     /// The user's email address
     /// </summary>

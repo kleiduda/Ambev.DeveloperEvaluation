@@ -45,6 +45,7 @@ public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
         if (user == null)
             throw new KeyNotFoundException($"User with ID {request.Id} not found");
 
-        return _mapper.Map<GetUserResult>(user);
+        var teste = _mapper.Map<GetUserResult>(user);
+        return teste;
     }
 }

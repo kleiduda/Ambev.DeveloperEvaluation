@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser.Dtos;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
