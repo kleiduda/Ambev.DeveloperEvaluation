@@ -18,9 +18,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale
             if (sale is null)
                 return false;
 
-            await _repository.DeleteAsync(request.Id, cancellationToken);
+            if (sale.Cancelada)
+                return true; // já cancelada, idempotente
+
+            sale.Cancelada = true;
+            await _repository.UpdateAsync(sale, cancellationToken);
             return true;
         }
     }
+
 
 }
