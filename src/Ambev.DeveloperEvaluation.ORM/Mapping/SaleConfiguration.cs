@@ -15,19 +15,19 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
                    .HasColumnType("uuid")
                    .HasDefaultValueSql("gen_random_uuid()");
 
-            builder.Property(s => s.NumeroVenda).IsRequired().HasMaxLength(50);
-            builder.Property(s => s.DataVenda).IsRequired();
+            builder.Property(s => s.SaleNumber).IsRequired().HasMaxLength(50);
+            builder.Property(s => s.SaleDate).IsRequired();
 
-            builder.Property(s => s.ClienteId).IsRequired();
-            builder.Property(s => s.ClienteNome).IsRequired().HasMaxLength(100);
+            builder.Property(s => s.CustomerId).IsRequired();
+            builder.Property(s => s.CustomerName).IsRequired().HasMaxLength(100);
 
-            builder.Property(s => s.FilialId).IsRequired();
-            builder.Property(s => s.FilialNome).IsRequired().HasMaxLength(100);
+            builder.Property(s => s.BranchId).IsRequired();
+            builder.Property(s => s.BranchName).IsRequired().HasMaxLength(100);
 
-            builder.Property(s => s.ValorTotal).HasColumnType("numeric(18,2)");
-            builder.Property(s => s.Cancelada).IsRequired();
+            builder.Property(s => s.TotalAmount).HasColumnType("numeric(18,2)");
+            builder.Property(s => s.IsCancelled).IsRequired();
 
-            builder.OwnsMany(s => s.Itens, i =>
+            builder.OwnsMany(s => s.Items, i =>
             {
                 i.ToTable("SaleItems");
 
@@ -35,11 +35,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
                 i.Property<Guid>("Id");
                 i.HasKey("Id");
 
-                i.Property(p => p.ProdutoId).IsRequired();
-                i.Property(p => p.ProdutoNome).IsRequired().HasMaxLength(100);
-                i.Property(p => p.Quantidade).IsRequired();
-                i.Property(p => p.PrecoUnitario).HasColumnType("numeric(18,2)").IsRequired();
-                i.Property(p => p.Desconto).HasColumnType("numeric(18,2)").IsRequired();
+                i.Property(p => p.ProductId).IsRequired();
+                i.Property(p => p.ProductName).IsRequired().HasMaxLength(100);
+                i.Property(p => p.Quantity).IsRequired();
+                i.Property(p => p.UnitPrice).HasColumnType("numeric(18,2)").IsRequired();
+                i.Property(p => p.Discount).HasColumnType("numeric(18,2)").IsRequired();
             });
         }
     }

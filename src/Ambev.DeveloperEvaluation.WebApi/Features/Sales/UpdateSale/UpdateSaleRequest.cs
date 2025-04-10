@@ -1,9 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales;
 
-namespace Ambev.DeveloperEvaluation.Domain.Entities
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
 {
-    public class Sale : BaseEntity
+    public class UpdateSaleRequest
     {
+        public Guid Id { get; set; }
+
         public string SaleNumber { get; set; } = string.Empty;
         public DateTime SaleDate { get; set; }
 
@@ -13,10 +15,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Guid BranchId { get; set; }
         public string BranchName { get; set; } = string.Empty;
 
-        public decimal TotalAmount { get; set; }
-        public bool IsCancelled { get; set; }
-
-        public List<SaleItem> Items { get; set; } = new();
+        public List<SaleItemRequest> Items { get; set; } = new();
     }
 
 

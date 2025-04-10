@@ -10,15 +10,15 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
         {
             CreateMap<GetSaleResult, GetSaleResponse>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Sale.Id))
-                .ForMember(dest => dest.NumeroVenda, opt => opt.MapFrom(src => src.Sale.NumeroVenda))
-                .ForMember(dest => dest.DataVenda, opt => opt.MapFrom(src => src.Sale.DataVenda))
-                .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.Sale.ClienteId))
-                .ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src => src.Sale.ClienteNome))
-                .ForMember(dest => dest.FilialId, opt => opt.MapFrom(src => src.Sale.FilialId))
-                .ForMember(dest => dest.FilialNome, opt => opt.MapFrom(src => src.Sale.FilialNome))
-                .ForMember(dest => dest.ValorTotal, opt => opt.MapFrom(src => src.Sale.ValorTotal))
-                .ForMember(dest => dest.Cancelada, opt => opt.MapFrom(src => src.Sale.Cancelada))
-                .ForMember(dest => dest.Itens, opt => opt.MapFrom(src => src.Sale.Itens));
+                .ForMember(dest => dest.SaleNumber, opt => opt.MapFrom(src => src.Sale.SaleNumber))
+                .ForMember(dest => dest.SaleDate, opt => opt.MapFrom(src => src.Sale.SaleDate))
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Sale.CustomerId))
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Sale.CustomerName))
+                .ForMember(dest => dest.BranchId, opt => opt.MapFrom(src => src.Sale.BranchId))
+                .ForMember(dest => dest.BranchName, opt => opt.MapFrom(src => src.Sale.BranchName))
+                .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.Sale.TotalAmount))
+                .ForMember(dest => dest.IsCancelled, opt => opt.MapFrom(src => src.Sale.IsCancelled))
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Sale.Items));
 
             CreateMap<SaleItem, GetSaleItemResponse>();
         }

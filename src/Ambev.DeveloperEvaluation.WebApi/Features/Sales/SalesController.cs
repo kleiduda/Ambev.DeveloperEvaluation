@@ -7,6 +7,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -75,13 +76,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             [FromQuery(Name = "_page")] int _page = 1,
             [FromQuery(Name = "_size")] int _size = 10,
             [FromQuery(Name = "_order")] string? _order = null,
-            [FromQuery] string? clienteNome = null,
-            [FromQuery] string? numeroVenda = null,
-            [FromQuery] DateTime? _minDataVenda = null,
-            [FromQuery] DateTime? _maxDataVenda = null,
-            [FromQuery] decimal? _minValorTotal = null,
-            [FromQuery] decimal? _maxValorTotal = null,
-            [FromQuery] bool? cancelada = null,
+            [FromQuery] string? customerName = null,
+            [FromQuery] string? saleNumber = null,
+            [FromQuery] DateTime? _minSaleDate = null,
+            [FromQuery] DateTime? _maxSaleDate = null,
+            [FromQuery] decimal? _minTotalAmount = null,
+            [FromQuery] decimal? _maxTotalAmount = null,
+            [FromQuery] bool? isCanceled = null,
             CancellationToken cancellationToken = default)
         {
             var request = new ListSalesRequest
@@ -89,13 +90,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Page = _page,
                 PageSize = _size,
                 OrderBy = _order,
-                ClienteNome = clienteNome,
-                NumeroVenda = numeroVenda,
-                _minDataVenda = _minDataVenda,
-                _maxDataVenda = _maxDataVenda,
-                _minValorTotal = _minValorTotal,
-                _maxValorTotal = _maxValorTotal,
-                Cancelada = cancelada
+                ClienteNome = customerName,
+                NumeroVenda = saleNumber,
+                _minDataVenda = _minSaleDate,
+                _maxDataVenda = _maxSaleDate,
+                _minValorTotal = _minTotalAmount,
+                _maxValorTotal = _maxTotalAmount,
+                Cancelada = isCanceled
             };
 
             var validator = new ListSalesRequestValidator();
@@ -149,6 +150,44 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Message = "Sale retrieved successfully"
             });
         }
+
+        /// <summary>
+        /// Updates a sale by ID
+        /// </summary>
+        /// <param name="id">The unique identifier of the sale</param>
+        /// <param name="request">Updated sale data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        //[HttpPut("{id}")]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> UpdateSale(Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+        //{
+        //    request.Id = id;
+
+        //    var validator = new UpdateSaleRequestValidator();
+        //    var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        //    if (!validationResult.IsValid)
+        //        return BadRequest(validationResult.Errors);
+
+        //    var command = _mapper.Map<UpdateSaleCommand>(request);
+        //    var result = await _mediator.Send(command, cancellationToken);
+
+        //    if (!result)
+        //        return NotFound(new ApiResponse
+        //        {
+        //            Success = false,
+        //            Message = $"Sale with ID {id} not found or is already cancelled"
+        //        });
+
+        //    return Ok(new ApiResponse
+        //    {
+        //        Success = true,
+        //        Message = "Sale updated successfully"
+        //    });
+        //}
+
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]

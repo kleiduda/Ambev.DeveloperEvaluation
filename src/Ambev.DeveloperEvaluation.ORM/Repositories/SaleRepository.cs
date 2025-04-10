@@ -39,35 +39,35 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             if (!string.IsNullOrWhiteSpace(clienteNome))
             {
                 if (clienteNome.StartsWith("*"))
-                    query = query.Where(x => x.ClienteNome.EndsWith(clienteNome.TrimStart('*')));
+                    query = query.Where(x => x.CustomerName.EndsWith(clienteNome.TrimStart('*')));
                 else if (clienteNome.EndsWith("*"))
-                    query = query.Where(x => x.ClienteNome.StartsWith(clienteNome.TrimEnd('*')));
+                    query = query.Where(x => x.CustomerName.StartsWith(clienteNome.TrimEnd('*')));
                 else
-                    query = query.Where(x => x.ClienteNome.Contains(clienteNome));
+                    query = query.Where(x => x.CustomerName.Contains(clienteNome));
             }
 
             if (!string.IsNullOrWhiteSpace(numeroVenda))
             {
                 if (numeroVenda.StartsWith("*"))
-                    query = query.Where(x => x.NumeroVenda.EndsWith(numeroVenda.TrimStart('*')));
+                    query = query.Where(x => x.SaleNumber.EndsWith(numeroVenda.TrimStart('*')));
                 else if (numeroVenda.EndsWith("*"))
-                    query = query.Where(x => x.NumeroVenda.StartsWith(numeroVenda.TrimEnd('*')));
+                    query = query.Where(x => x.SaleNumber.StartsWith(numeroVenda.TrimEnd('*')));
                 else
-                    query = query.Where(x => x.NumeroVenda.Contains(numeroVenda));
+                    query = query.Where(x => x.SaleNumber.Contains(numeroVenda));
             }
 
             if (minDataVenda.HasValue)
-                query = query.Where(x => x.DataVenda >= minDataVenda.Value);
+                query = query.Where(x => x.SaleDate >= minDataVenda.Value);
             if (maxDataVenda.HasValue)
-                query = query.Where(x => x.DataVenda <= maxDataVenda.Value);
+                query = query.Where(x => x.SaleDate <= maxDataVenda.Value);
 
             if (minValorTotal.HasValue)
-                query = query.Where(x => x.ValorTotal >= minValorTotal.Value);
+                query = query.Where(x => x.TotalAmount >= minValorTotal.Value);
             if (maxValorTotal.HasValue)
-                query = query.Where(x => x.ValorTotal <= maxValorTotal.Value);
+                query = query.Where(x => x.TotalAmount <= maxValorTotal.Value);
 
             if (cancelada.HasValue)
-                query = query.Where(x => x.Cancelada == cancelada.Value);
+                query = query.Where(x => x.IsCancelled == cancelada.Value);
 
             if (!string.IsNullOrWhiteSpace(orderBy))
             {
@@ -77,12 +77,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 }
                 catch
                 {
-                    query = query.OrderBy(x => x.DataVenda);
+                    query = query.OrderBy(x => x.SaleDate);
                 }
             }
             else
             {
-                query = query.OrderBy(x => x.DataVenda);
+                query = query.OrderBy(x => x.SaleDate);
             }
 
             var totalItems = await query.CountAsync(cancellationToken);
@@ -98,14 +98,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Sales
-                .Include(s => s.Itens)
+                .Include(s => s.Items)
                 .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var sale = await _context.Sales
-                .Include(s => s.Itens)
+                .Include(s => s.Items)
                 .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
 
             if (sale is not null)

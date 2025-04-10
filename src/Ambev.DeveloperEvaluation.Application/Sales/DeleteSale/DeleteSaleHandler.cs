@@ -18,10 +18,10 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale
             if (sale is null)
                 return false;
 
-            if (sale.Cancelada)
+            if (sale.IsCancelled)
                 return true; // já cancelada, idempotente
 
-            sale.Cancelada = true;
+            sale.IsCancelled = true;
             await _repository.UpdateAsync(sale, cancellationToken);
             return true;
         }

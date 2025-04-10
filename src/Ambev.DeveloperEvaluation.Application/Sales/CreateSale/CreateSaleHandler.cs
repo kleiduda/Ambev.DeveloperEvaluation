@@ -20,16 +20,16 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         {
             var sale = _mapper.Map<Sale>(command);
 
-            sale.ValorTotal = sale.Itens.Sum(i => (i.PrecoUnitario * i.Quantidade) - i.Desconto);
-            sale.Cancelada = false;
+            sale.TotalAmount = sale.Items.Sum(i => (i.UnitPrice * i.Quantity) - i.Discount);
+            sale.IsCancelled = false;
 
             var created = await _repository.CreateAsync(sale, cancellationToken);
 
             return new CreateSaleResult
             {
                 Id = created.Id,
-                NumeroVenda = created.NumeroVenda,
-                ValorTotal = created.ValorTotal
+                SaleNumber = created.SaleNumber,
+                TotalAmount = created.TotalAmount
             };
         }
     }

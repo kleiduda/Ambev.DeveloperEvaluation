@@ -2,25 +2,24 @@
 {
     public class CreateSaleRequest
     {
-        public string NumeroVenda { get; set; } = string.Empty;
-        public DateTime DataVenda { get; set; }
+        public string SaleNumber { get; set; } = string.Empty;
+        public DateTime SaleDate { get; set; }
 
-        public Guid ClienteId { get; set; }
-        public string ClienteNome { get; set; } = string.Empty;
+        public Guid CustomerId { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
 
-        public Guid FilialId { get; set; }
-        public string FilialNome { get; set; } = string.Empty;
+        public Guid BranchId { get; set; }
+        public string BranchName { get; set; } = string.Empty;
 
-        public List<SaleItemRequest> Itens { get; set; } = new();
+        public List<SaleItemRequest> Items { get; set; } = new();
     }
 
     public class SaleItemRequest
     {
-        public Guid ProdutoId { get; set; }
-        public string ProdutoNome { get; set; } = string.Empty;
-        public int Quantidade { get; set; }
-        public decimal PrecoUnitario { get; set; }
-        public decimal Desconto { get; set; }
+        public Guid ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Discount { get; set; }
     }
-
 }

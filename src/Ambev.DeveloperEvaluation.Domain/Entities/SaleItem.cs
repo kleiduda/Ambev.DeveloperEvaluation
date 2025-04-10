@@ -2,14 +2,14 @@
 {
     public class SaleItem
     {
-        public Guid ProdutoId { get; set; }
-        public string ProdutoNome { get; set; } = string.Empty;
+        public Guid ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Discount { get; set; }
 
-        public int Quantidade { get; set; }
-        public decimal PrecoUnitario { get; set; }
-        public decimal Desconto { get; set; }
-
-        public decimal ValorTotalItem => (PrecoUnitario * Quantidade) - Desconto;
+        public decimal TotalItemValue => (UnitPrice * Quantity) - Discount;
     }
+
 
 }

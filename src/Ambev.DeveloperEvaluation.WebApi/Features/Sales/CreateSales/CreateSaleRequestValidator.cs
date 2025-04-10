@@ -6,10 +6,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales
     {
         public CreateSaleRequestValidator()
         {
-            RuleFor(x => x.NumeroVenda).NotEmpty();
-            RuleFor(x => x.ClienteNome).NotEmpty();
-            RuleFor(x => x.FilialNome).NotEmpty();
-            RuleForEach(x => x.Itens).SetValidator(new SaleItemValidator());
+            RuleFor(x => x.SaleNumber).NotEmpty();
+            RuleFor(x => x.CustomerName).NotEmpty();
+            RuleFor(x => x.BranchName).NotEmpty();
+            RuleForEach(x => x.Items).SetValidator(new SaleItemValidator());
         }
     }
 
@@ -17,11 +17,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales
     {
         public SaleItemValidator()
         {
-            RuleFor(x => x.ProdutoId).NotEmpty();
-            RuleFor(x => x.ProdutoNome).NotEmpty();
-            RuleFor(x => x.Quantidade).GreaterThan(0);
-            RuleFor(x => x.PrecoUnitario).GreaterThan(0);
-            RuleFor(x => x.Desconto).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.ProductId).NotEmpty();
+            RuleFor(x => x.ProductName).NotEmpty();
+            RuleFor(x => x.Quantity).GreaterThan(0);
+            RuleFor(x => x.UnitPrice).GreaterThan(0);
+            RuleFor(x => x.Discount).GreaterThanOrEqualTo(0);
         }
     }
 

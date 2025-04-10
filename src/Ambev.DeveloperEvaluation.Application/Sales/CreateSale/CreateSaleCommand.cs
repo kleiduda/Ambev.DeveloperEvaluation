@@ -5,16 +5,17 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
     public class CreateSaleCommand : IRequest<CreateSaleResult>
     {
-        public string NumeroVenda { get; set; } = string.Empty;
-        public DateTime DataVenda { get; set; }
+        public string SaleNumber { get; set; } = string.Empty;
+        public DateTime SaleDate { get; set; }
 
-        public Guid ClienteId { get; set; }
-        public string ClienteNome { get; set; } = string.Empty;
+        public Guid CustomerId { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
 
-        public Guid FilialId { get; set; }
-        public string FilialNome { get; set; } = string.Empty;
+        public Guid BranchId { get; set; }
+        public string BranchName { get; set; } = string.Empty;
 
-        public List<SaleItemDto> Itens { get; set; } = new();
+        public List<SaleItemDto> Items { get; set; } = new();
     }
+
 
 }
