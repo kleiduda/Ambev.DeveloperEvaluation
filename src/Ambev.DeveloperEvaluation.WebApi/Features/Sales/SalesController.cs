@@ -1,8 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.ListSales;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSales;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales;
 using AutoMapper;
 using MediatR;
@@ -113,6 +114,40 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 
             return OkPaginated(paginated);
         }
+
+        /// <summary>
+        /// Retrieves a sale by its ID with full details
+        /// </summary>
+        /// <param name="id">The unique identifier of the sale</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The full sale data including items</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetSaleResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetSaleById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var command = new GetSaleCommand(id);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result is null)
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Sale with ID {id} not found"
+                });
+
+            var response = _mapper.Map<GetSaleResponse>(result);
+
+            return Ok(new ApiResponseWithData<GetSaleResponse>
+            {
+                Success = true,
+                Data = response,
+                Message = "Sale retrieved successfully"
+            });
+        }
+
 
     }
 
