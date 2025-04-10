@@ -1,8 +1,10 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.ListSales;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales;
 using AutoMapper;
@@ -147,6 +149,37 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Message = "Sale retrieved successfully"
             });
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteSale(Guid id, CancellationToken cancellationToken)
+        {
+            var command = new DeleteSaleCommand(id);
+
+            var validator = new DeleteSaleRequestValidator();
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result)
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Sale with ID {id} not found"
+                });
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Sale deleted successfully"
+            });
+        }
+
 
 
     }
