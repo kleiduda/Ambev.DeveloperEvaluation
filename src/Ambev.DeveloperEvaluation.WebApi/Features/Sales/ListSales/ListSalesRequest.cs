@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSales
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales
 {
     public class ListSalesRequest
     {

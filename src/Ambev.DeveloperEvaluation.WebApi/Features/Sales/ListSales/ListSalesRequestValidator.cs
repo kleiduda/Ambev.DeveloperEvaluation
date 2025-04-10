@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSales;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales
 {
