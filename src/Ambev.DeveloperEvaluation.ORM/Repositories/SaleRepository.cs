@@ -95,6 +95,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return (items, totalItems);
         }
 
+        public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Sales
+                .Include(s => s.Itens)
+                .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+        }
+
+
     }
 
 }
