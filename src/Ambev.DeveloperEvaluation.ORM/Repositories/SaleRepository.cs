@@ -116,6 +116,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
 
+        public async Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
+        {
+            _context.Sales.Update(sale);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
 
     }
 

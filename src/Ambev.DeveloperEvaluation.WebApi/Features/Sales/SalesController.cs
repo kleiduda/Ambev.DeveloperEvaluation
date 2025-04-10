@@ -176,8 +176,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             return Ok(new ApiResponse
             {
                 Success = true,
-                Message = "Sale deleted successfully"
+                Message = "Sale cancelled successfully"
             });
+
         }
 
 
