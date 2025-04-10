@@ -102,6 +102,20 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
 
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var sale = await _context.Sales
+                .Include(s => s.Itens)
+                .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+
+            if (sale is not null)
+            {
+                _context.Sales.Remove(sale);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+
 
     }
 
