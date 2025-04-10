@@ -34,7 +34,9 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products.TestData
 
         public static CreateProductCommand GenerateValidCommand() => ProductCommandFaker.Generate();
         public static Product GenerateValidProduct() => ProductFaker.Generate();
-    }
 
+        public static List<Product> GenerateProductList(int count)
+            => ProductFaker.Generate(count);
+    }
 
 }
