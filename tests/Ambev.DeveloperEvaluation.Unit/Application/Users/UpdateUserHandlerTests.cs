@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Application
+namespace Ambev.DeveloperEvaluation.Unit.Application.Users
 {
     public class UpdateUserHandlerTests
     {

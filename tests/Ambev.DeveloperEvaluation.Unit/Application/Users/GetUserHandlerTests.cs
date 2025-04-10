@@ -10,7 +10,7 @@ using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Application
+namespace Ambev.DeveloperEvaluation.Unit.Application.Users
 {
     public class GetUserHandlerTests
     {
@@ -74,7 +74,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             var command = new GetUserCommand(userId);
 
             _userRepository.GetByIdAsync(userId, Arg.Any<CancellationToken>())
-                .Returns((User?)null); 
+                .Returns((User?)null);
 
             // When
             var act = async () => await _handler.Handle(command, CancellationToken.None);

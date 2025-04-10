@@ -6,7 +6,7 @@ using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Application
+namespace Ambev.DeveloperEvaluation.Unit.Application.Users
 {
     public class ListUsersHandlerTests
     {
