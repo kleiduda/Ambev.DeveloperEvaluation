@@ -51,6 +51,16 @@ Isso sobe:
 - Redis (não utilizado no momento, mas disponível)
 
 ---
+Executar as Migrations
+Com o banco PostgreSQL rodando via Docker, execute o comando abaixo para aplicar as migrations automaticamente:
+
+Rodar o comando abaixo:
+dotnet ef database update --project src/Ambev.DeveloperEvaluation.ORM --startup-project src/Ambev.DeveloperEvaluation.WebApi
+
+Esse comando:
+Cria o banco de dados developer_evaluation
+Aplica as migrations do projeto ORM
+Utiliza a string de conexão definida no appsettings.Development.json
 
 ### 3. Rodar a aplicação
 
