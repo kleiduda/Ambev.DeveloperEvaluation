@@ -2,6 +2,7 @@
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.ListSales;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSales;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
@@ -152,41 +153,42 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         }
 
         /// <summary>
-        /// Updates a sale by ID
+        /// Updates an existing sale by ID
         /// </summary>
         /// <param name="id">The unique identifier of the sale</param>
-        /// <param name="request">Updated sale data</param>
+        /// <param name="request">The updated sale data</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        //[HttpPut("{id}")]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> UpdateSale(Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
-        //{
-        //    request.Id = id;
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateSale(Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+        {
+            request.Id = id;
 
-        //    var validator = new UpdateSaleRequestValidator();
-        //    var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            var validator = new UpdateSaleRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        //    if (!validationResult.IsValid)
-        //        return BadRequest(validationResult.Errors);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
 
-        //    var command = _mapper.Map<UpdateSaleCommand>(request);
-        //    var result = await _mediator.Send(command, cancellationToken);
+            var command = _mapper.Map<UpdateSaleCommand>(request);
+            var result = await _mediator.Send(command, cancellationToken);
 
-        //    if (!result)
-        //        return NotFound(new ApiResponse
-        //        {
-        //            Success = false,
-        //            Message = $"Sale with ID {id} not found or is already cancelled"
-        //        });
+            if (!result)
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Sale with ID {id} not found or is already cancelled"
+                });
 
-        //    return Ok(new ApiResponse
-        //    {
-        //        Success = true,
-        //        Message = "Sale updated successfully"
-        //    });
-        //}
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Sale updated successfully"
+            });
+        }
+
 
 
         [HttpDelete("{id}")]

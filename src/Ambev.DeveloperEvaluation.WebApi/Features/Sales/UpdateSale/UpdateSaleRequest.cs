@@ -17,6 +17,4 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale
 
         public List<SaleItemRequest> Items { get; set; } = new();
     }
-
-
 }
